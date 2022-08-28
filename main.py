@@ -115,7 +115,7 @@ def get_ciba():
     return note_ch, note_en
  
 def get_caihongpi():
-    url=:"http://api.tianapi.com/caihongpi/index?key=ca7f145cf9e766edfbdc261644fb9875"
+    url="http://api.tianapi.com/caihongpi/index?key=ca7f145cf9e766edfbdc261644fb9875"
     headers={
         'Content-Type':'application/json;charset=utf-8',
         'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63'
