@@ -124,8 +124,19 @@ def get_caihongpi():
     caihongpi_content=r.json()["newslist"][0]["content"]
     return caihongpi_content
 
+# 笑话
+def get_xiaohua():
+    url="http://api.tianapi.com/joke/index?key=ca7f145cf9e766edfbdc261644fb9875&num=1"
+    headers={
+        'Content-Type':'application/json;charset=utf-8',
+        'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63'
+    }
+    r=get(url,headers=headers)
+    xiaohua_title=r.json()["newslist"][0]["title"]
+    xiaohua_content=r.json()["newslist"][0]["content"]
+    return xiaohua_title,xiaohua_content
 
-def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch, note_en,caihongpi_content):
+def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch, note_en,caihongpi_content,xiaohua_title,xiaohua_content):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
     week_list = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
     year = localtime().tm_year
@@ -186,6 +197,14 @@ def send_message(to_user, access_token, region_name, weather, temp, wind_dir, no
             "caihongpi_content":{
                 "value":caihongpi_content,
                 "color":get_color()
+            },
+            "xiaohua_title":{
+                "value":xiaohua_title,
+                "color":get_color()
+            },
+            "xiaohua_content":{
+                "value":xiaohua_content,
+                "color":get_color()
             }
         }
     }
@@ -241,9 +260,11 @@ if __name__ == "__main__":
     if note_ch == "" and note_en == "":
         # 获取词霸每日金句
         note_ch, note_en = get_ciba()
-        # 获取彩虹屁
+    # 获取彩虹屁
     caihongpi_content=get_caihongpi()
+    # 获取笑话
+    xiaohua_title,xiaohua_content=get_xiaohua()
     # 公众号推送消息
     for user in users:
-        send_message(user, accessToken, region, weather, temp, wind_dir, note_ch, note_en,caihongpi_content)
+        send_message(user, accessToken, region, weather, temp, wind_dir, note_ch, note_en,caihongpi_content,xiaohua_title,xiaohua_content)
     os.system("pause")
